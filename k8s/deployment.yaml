@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: worker-api
+  template:
+    metadata:
+      labels:
+        app: worker-api
+    spec:
+      containers:
+        - name: worker-api
+          image: worker-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: worker-api-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker-api-service
+spec:
+  type: NodePort
+  selector:
+    app: worker-api
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000

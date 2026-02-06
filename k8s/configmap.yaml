@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: worker-api-config
+data:
+  DSN: "postgres://postgres:mysecretpassword@postgres-service:5432/postgres?sslmode=disable"
