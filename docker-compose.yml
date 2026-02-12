@@ -3,22 +3,26 @@ version: "3.8"
 services:
   app:
     build: .
-    container_name: worker-api-app
+    container_name: todo-api-app
     ports:
       - "8080:8080"
     environment:
-      - DSN=postgres://user:password@db:5432/worker_db?sslmode=disable
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=todo_db
     depends_on:
       - db
     restart: always
 
   db:
     image: postgres:15-alpine
-    container_name: worker-api-db
+    container_name: todo-api-db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: worker_db
+      POSTGRES_DB: todo_db
     ports:
       - "5432:5432"
     volumes:

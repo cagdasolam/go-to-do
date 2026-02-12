@@ -3,17 +3,27 @@ package main
 import (
 	"os"
 
+	"example.com/mod/docs"
 	"example.com/mod/internal/api"
 	"example.com/mod/internal/db"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/swag/example/basic/docs"
 )
 
+// @title GO TO DO API
+// @version 1.0
+// @description Basic todo API built with Go, Gin, and GORM
+// @host localhost:8080
+// @BasePath /api/v1
+
 func main() {
+	// .env dosyasını yükle
+	_ = godotenv.Load()
+
 	// Logger kurulumu
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
@@ -29,10 +39,7 @@ func main() {
 	// Gin router kurulumu
 	router := gin.Default()
 
-	// Swagger ayarları
-	docs.SwaggerInfo.Title = "Worker API"
-	docs.SwaggerInfo.Description = "Bu API, arka plan görevlerini yönetmek için kullanılır."
-	docs.SwaggerInfo.Version = "1.0"
+	// Swagger ayarları - docs paketi üzerinden
 	docs.SwaggerInfo.Host = "localhost:8080"
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
